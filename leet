@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int maxWidthRamp(vector<int>& nums) {
+        stack<int> stack; 
+        int n = nums.size();
+
+        for(int i = 0; i < n; i++) {
+            if(stack.empty() || nums[stack.top()] > nums[i]) {
+                stack.push(i);
+            }
+        }
+
+        int ans = 0;
+
+        for(int i = n - 1; i >= 0; i--) {
+            while(!stack.empty() && nums[stack.top()] <= nums[i]) {
+                ans = max(ans, i - stack.top());
+                stack.pop();
+            }
+        }
+
+        return ans;
+    }
+};
